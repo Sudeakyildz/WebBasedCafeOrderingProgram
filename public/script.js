@@ -85,7 +85,7 @@ function submitOrder() {
     console.log('Gönderilen sipariş verisi:', orderData); // Sipariş verisini konsola yazdır
 
     // Sipariş verisini sunucuya gönder
-    fetch('http://172.20.10.10:3000/api/orders', {
+    fetch('/api/orders', {
         method: 'POST', // HTTP POST metodu
         headers: { 
             'Content-Type': 'application/json' // JSON formatında veri gönderileceğini belirt
