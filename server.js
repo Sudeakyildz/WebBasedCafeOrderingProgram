@@ -3,6 +3,7 @@ const express = require('express');
 const mysql = require('mysql2/promise');
 const path = require('path');
 const os = require('os');
+const fs = require('fs');
 const app = express();
 const port = process.env.PORT || 3000;
 
@@ -39,8 +40,13 @@ function getLocalIP() {
 // JSON verilerini almak için middleware
 app.use(express.json()); // Gelen isteklerde JSON verisini otomatik olarak ayrıştırır.
 
-// Statik dosyaları sun
-app.use(express.static(path.join(__dirname, 'public'))); 
+// React build varsa onu sun, yoksa public (eski statik)
+const clientBuild = path.join(__dirname, 'client', 'dist');
+if (fs.existsSync(clientBuild)) {
+    app.use(express.static(clientBuild));
+} else {
+    app.use(express.static(path.join(__dirname, 'public')));
+} 
 // 'public' dizinindeki statik dosyaları sunar. Örneğin, CSS, JS veya HTML dosyaları buradan alınır.
 
 // MySQL bağlantısı (.env ile veya varsayılan değerler)
@@ -158,9 +164,12 @@ app.get('/qr-info', (req, res) => {
     res.send(html);
 });
 
-// Root endpoint: index.html
+// SPA: React build varsa onun index'i, yoksa public/index.html
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+    const indexPath = fs.existsSync(clientBuild)
+        ? path.join(clientBuild, 'index.html')
+        : path.join(__dirname, 'public', 'index.html');
+    res.sendFile(indexPath);
 });
 
 // Sunucu başlatma (0.0.0.0 = tüm ağ arayüzlerinde dinle)

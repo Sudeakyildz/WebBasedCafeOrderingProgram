@@ -6,7 +6,7 @@ QR kod ile menü açıp sipariş verebileceğiniz kafe sipariş uygulaması.
 
 - **Backend:** Node.js, Express
 - **Veritabanı:** MySQL (isteğe bağlı; yoksa siparişler konsola yazılır)
-- **Frontend:** HTML, CSS, JavaScript
+- **Frontend:** React (Vite), HTML, CSS, JavaScript
 
 ## Kurulum
 
@@ -14,6 +14,7 @@ QR kod ile menü açıp sipariş verebileceğiniz kafe sipariş uygulaması.
 git clone https://github.com/Sudeakyildz/WebBasedCafeOrderingProgram.git
 cd WebBasedCafeOrderingProgram
 npm install
+npm run build:client   # React frontend'i derler (ilk seferde)
 npm start
 ```
 
